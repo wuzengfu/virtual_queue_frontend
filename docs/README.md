@@ -2,8 +2,8 @@
 
 ## Setup
 
-1. Setup [ST0507 ADES AY21/22 Sem 1 CA1 Backend](https://ades-fsp.github.io/2122s1-backend/#setup)
-2. Run [the Backend](https://ades-fsp.github.io/2122s1-backend/#run)
+1. Setup the backend your created with your group (The one with your class and group name)
+2. Start the Backend by starting the database followed by running the backend.
 
     ```
     $ npm run start-db
@@ -15,6 +15,8 @@
 
 1. Serve `index.html` on `localhost` and access it via your desired browser
     1. You should see a black page with 2 grey containers
+
+> You can use VSCode's live server or any other method you prefer.
 
 ## Instructions
 
@@ -161,7 +163,7 @@ We will be building a dashboard with a single graph to monitor the number of err
 
     If you have not triggered any error, you should see an empty array.
 
-23. Heading back to the backend folder, we can make use of the HTTP request in `./test/http/stats.test.http` to trigger some 404 errors which would be logged by our system. Send 3 request to trigger 404 errors.
+23. Heading back to the backend folder, we can make use of the HTTP request in `./test/http/errors.test.http` to trigger some 404 errors which would be logged by our system. Send 3 request to trigger 404 errors.
 24. Head back to the browser's console and send the request to get Error Chart payload again. This time round, you should observe an array of 3 element.
 25. With the connector component completed, we can now move on to the next component, the `Google Chart` component.
 26. To be able to make use of the `Google Chart` Library, we first need to import the library. Looking at the [`Google Chart Documentation`](https://developers.google.com/chart/interactive/docs/basic_load_libs), we know that in order to import the library we need to include the following lines at the `<!-- external script -->` section of `index.html`.
