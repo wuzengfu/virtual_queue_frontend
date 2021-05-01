@@ -18,6 +18,8 @@
 
 ## Instructions
 
+> You are to make changes to this repository and not the backend repository
+
 We will be building a dashboard with a single graph to monitor the number of errors our system encounters.
 
 ![component-diagram](assets/component-diagram.png)
