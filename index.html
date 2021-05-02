@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link href="styles/main.css" rel="stylesheet" />
+
+        <!-- external scripts -->
+        <script type="text/javascript" src="./scripts/external/dayjs.min.js"></script>
+        <script type="text/javascript" src="./scripts/external/dayjs.utc.min.js"></script>
+        <script>
+            dayjs.extend(window.dayjs_plugin_utc);
+        </script>
+
+        <script type="text/javascript" src="./scripts/external/loader.js"></script>
+        <script>
+            google.charts.load('current', { packages: ['corechart'] });
+        </script>
+
+        <!-- scripts -->
+        <script src="scripts/index.mjs" type="module"></script>
+    </head>
+    <body>
+        <div id="main-container">
+            <div id="header">
+                <div id="title">Queue Dashboard</div>
+            </div>
+            <div id="error-rate" class="chart-container">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+            </div>
+        </div>
+    </body>
+</html>
