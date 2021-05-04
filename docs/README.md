@@ -237,7 +237,7 @@ We will be building a dashboard with a single graph to monitor the number of err
 33. Putting them together, we can use do the following to test out the creating and drawing of chart:
 
     ```js
-    import('./scripts/google_charts.mjs').then((googleCharts) => {
+    import('./scripts/google_chart.mjs').then((googleCharts) => {
         const chart = googleCharts.createColumnChart(chartDom);
         googleCharts.drawChart(chart, array, options);
     });
@@ -303,7 +303,7 @@ We will be building a dashboard with a single graph to monitor the number of err
 
     ```js
     // At the top of the file.
-    import { createColumnChart, drawChart } from './google_charts.mjs';
+    import { createColumnChart, drawChart } from './google_chart.mjs';
     import { getErrorChartPayload } from './connector.mjs';
     import { makeFromParameter } from './utils.mjs';
     import { DEFAULTS } from './commons.mjs';
