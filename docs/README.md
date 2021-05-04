@@ -136,7 +136,7 @@ We will be building a dashboard with a single graph to monitor the number of err
     ```
 
 20. Now that we are able to produce the `from` and `duration` parameter, we can start to send request to the backend.
-21. Create a new file `connector.mjs` and include the following lines:
+21. Create a new file `connector.mjs` in the `scripts` folder and include the following lines:
 
     ```js
     const host = `http://localhost:3000/`;
