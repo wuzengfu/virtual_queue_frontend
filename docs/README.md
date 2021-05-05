@@ -317,7 +317,7 @@ We will be building a dashboard with a single graph to monitor the number of err
             create: createColumnChart,
             getData: getErrorChartPayload,
             convertToGraphData: makeErrorChartPayloadToTimestampBuckets,
-            draw: (chart, array) => drawChart(chart, array, this.options),
+            draw: (chart, array, options) => drawChart(chart, array, options),
         },
     ];
     ```
@@ -330,7 +330,7 @@ We will be building a dashboard with a single graph to monitor the number of err
 
     ```js
     export function initialize() {
-        charts.forEach(({ containerId, create, getData, convertToGraphData, draw }) => {
+        charts.forEach(({ options, containerId, create, getData, convertToGraphData, draw }) => {
             const chartContainerDom = document.getElementById(containerId);
             const chartDom = chartContainerDom.querySelector('.chart');
             const chart = create(chartDom);
@@ -338,7 +338,7 @@ We will be building a dashboard with a single graph to monitor the number of err
             const { duration } = DEFAULTS;
             getData(from, duration)
                 .then((data) => convertToGraphData(data, fromDayJs, toDayJs))
-                .then((array) => draw(chart, array));
+                .then((array) => draw(chart, array, options));
         });
     }
     ```
