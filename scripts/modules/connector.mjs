@@ -1,6 +1,8 @@
 const host = `http://localhost:3000`;
 const END_POINTS = {
     errors: '/stats/errors',
+    arrivals: '/stats/arrivals',
+    queue: '/queue'
 };
 
 /**
@@ -39,7 +41,17 @@ function makeFromDurationUrl(baseUrl, from, duration) {
  * @param duration the amount of minutes from the `from` parameter
  * @returns a Promise that resolves with the Error Chart's payload.
  */
-export default function getErrorChartPayload(from, duration) {
+export function getErrorChartPayload(from, duration) {
     const url = makeFromDurationUrl(`${host}${END_POINTS.errors}`, from, duration);
+    return getChartPayload(url);
+}
+
+export function getArrivalChartPayload(from, duration) {
+    const url = makeFromDurationUrl(`${host}${END_POINTS.arrivals}`, from, duration);
+    return getChartPayload(url);
+}
+
+export function getWaitingTimePayload(){
+    const url = `${host}${END_POINTS.queue}`;
     return getChartPayload(url);
 }
