@@ -1,6 +1,6 @@
 import { DEFAULTS, hideDom, showDom, makeNowFrom } from '../commons.mjs';
-import { createColumnChart, drawGoogleChart } from './google-charts.mjs';
-import getErrorChartPayload from './connector.mjs';
+import { createAreaChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
+import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload} from './connector.mjs';
 
 /**
  *
@@ -93,6 +93,76 @@ function makeErrorChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) {
     );
 }
 
+/**
+ * Generate arrival_timestamp buckets for arrival column chart
+ *
+ * @param payload data received from GET /stats/arrivals
+ * @param fromDayJs a dayjs instance, represent the starting time
+ * @param toDayJs a dayjs instance, represent the ending time
+ * @returns buckets in Google Column Chart data format
+ */
+function makeArrivalChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) {
+    return makeTimestampBuckets(
+        payload,
+        fromDayJs,
+        toDayJs,
+    );
+}
+
+/**
+ *  Calculate the data from GET /queue
+ *  <ul>
+ *    <li>Mean</li>
+ *    <li>Median</li>
+ *    <li>Max</li>
+ *    <li>Min</li>
+ *  </ul>
+ *
+ * @param {Object} payload the array object from GET /queue which includes customer_id and arrival_timestamp
+ * @return {Object} the values of Mean, Median, Max and Min
+*/
+function makeWaitingTimePayload(payload) {
+    let mean = 0,
+        median = 0,
+        max = 0,
+        min = 0;
+
+    //return all 0 for four panels, if nobody is in the queue
+    if (!payload.length) {
+        return {
+            mean,
+            median,
+            max,
+            min
+        };
+    }
+
+    const now = makeNowFrom(0)[0].unix(); //current timestamp
+    let arrival_timestamp = payload.map(ele => now - ele.arrival); //extract arrival_timestamp to array
+    const length = arrival_timestamp.length; //the length of arrival_timestamp
+
+    //Get mean
+    let sum = arrival_timestamp.reduce((a, b) => a + b);
+    mean = sum / length;
+
+    //Get median
+    let mid = Math.floor(length / 2);
+    median = length % 2 ? arrival_timestamp[mid] : (arrival_timestamp[mid - 1] + arrival_timestamp[mid]) / 2;
+
+    //Get max
+    max = arrival_timestamp[0];
+
+    //Get min
+    min = arrival_timestamp[length - 1];
+
+    return {
+        mean,
+        median,
+        max,
+        min
+    };
+}
+
 const hideWarningIcon = hideDom;
 const showWarningIcon = showDom;
 const hideLoadingAnimation = hideDom;
@@ -110,6 +180,38 @@ export const charts = {
         payloadToData: makeErrorChartPayloadToTimestampBuckets,
         getPayload: getErrorChartPayload,
     },
+
+    'arrival-rate':{
+        options: {
+            ...DEFAULTS.graphOptions,
+            title: 'arrivals/sec',
+            colors: ['rgb(0,255,0)'],
+        },
+        createChart: createColumnChart,
+        draw: drawGoogleChart,
+        payloadToData: makeArrivalChartPayloadToTimestampBuckets,
+        getPayload: getArrivalChartPayload,
+    },
+
+    'waiting-time': {
+        panels: [{
+            key: 'mean',
+            value: 'Average Waiting Time'
+        }, {
+            key: 'median',
+            value: 'Median Waiting Time'
+        }, {
+            key: 'max',
+            value: 'Max Waiting Time'
+        }, {
+            key: 'min',
+            value: 'Min Waiting Time'
+        }],
+        createChart: createWaitingTimePanels,
+        draw: drawWaitingTimePanels,
+        payloadToData: makeWaitingTimePayload,
+        getPayload: getWaitingTimePayload,
+    }
 };
 
 /**
