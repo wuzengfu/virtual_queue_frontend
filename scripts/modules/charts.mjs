@@ -194,6 +194,9 @@ export const charts = {
     },
 
     'waiting-time': {
+        options:{
+            colors: ['rgb(0,100,0)']
+        },
         panels: [{
             key: 'mean',
             value: 'Average Waiting Time'
