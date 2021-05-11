@@ -2,6 +2,7 @@ import { DEFAULTS } from '../commons.mjs';
 import { convertColorFormat } from '../external/convertColorFormat.js';
 import { charts } from './charts.mjs';
 import enableAutoRefresh from './auto-refresh.mjs';
+import { hideDom, showDom } from '../commons.mjs';
 
 /**
  *  Array Object of configuration to be enabled for charts
@@ -21,11 +22,32 @@ const initChart = [{
 }];
 
 /**
+ * enable the toggle of config-container
+ */
+function enableToggle() {
+    let config_container = document.getElementById('config-container');
+    let toggle_icon = document.getElementById('toggle-config');
+
+    //Add event listener on click
+    toggle_icon.addEventListener('click', () => {
+        let attribute = config_container.getAttribute('hidden');
+        if (attribute === "hidden") {
+            config_container.style.display = "none";
+            showDom(config_container);
+        } else {
+            config_container.style.display = "grid";
+            hideDom(config_container);
+        }
+    });
+}
+
+/**
  * enable chart configuration and customize colors
  */
 export const enableChartConfig = function (chartID, charts) {
     initChartConfig();
     initCustomColor(chartID, charts);
+    enableToggle();
 };
 
 /**
