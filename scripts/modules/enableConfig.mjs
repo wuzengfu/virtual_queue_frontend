@@ -61,16 +61,16 @@ function initChartConfig() {
         let label = createLabel(ele.value);
         let input = createInput(ele.type, ele.default);
 
-        //append DOM elements
-        container.appendChild(label);
-        container.appendChild(input);
-
         //register events
-        container.addEventListener('change', (e) => {
+        input.addEventListener('change', (e) => {
             let value = e.target.value;
             DEFAULTS[keys[index]] = value * 1;
             enableAutoRefresh(Object.keys(charts));
         });
+
+        //append DOM elements
+        container.appendChild(label);
+        container.appendChild(input);
 
         //insert into the outer config-container
         document.getElementById('config-container')
@@ -91,14 +91,14 @@ function initCustomColor(chartId, charts) {
         let label = createLabel(chartId[index] + ' color ');
         let input = createInput('color', color);
 
+        //register events
+        input.addEventListener('change', (e) => {
+            options.colors[0] = e.target.value;
+        });
+
         //append DOM elements
         container.appendChild(label);
         container.appendChild(input);
-
-        //register events
-        container.addEventListener('change', (e) => {
-            options.colors[0] = e.target.value;
-        });
 
         //insert into the container
         document.getElementById('config-container')
