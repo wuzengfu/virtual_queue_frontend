@@ -50,12 +50,16 @@ export function createWaitingTimePanels(chart) {
  * @param {Object} chart - the properties of the waiting-time panel
  */
 export function drawWaitingTimePanels(data, chart) {
-    const { panels } = chart;
+    const { panels, options } = chart;
+    let color = options.colors[0];
+
+    let dom_panel = document.getElementsByClassName('panels');
     let dom_key = document.getElementsByClassName('key');
     let dom_value = document.getElementsByClassName('value');
 
     //insert values into the four panels
     for (let i = 0, length = Object.keys(data).length; i < length; i++) {
+        dom_panel[i].style.backgroundColor = color; //set background color
         dom_key[i].innerHTML = panels[i].value;
         dom_value[i].innerHTML = data[panels[i].key].toFixed(1);
     }
