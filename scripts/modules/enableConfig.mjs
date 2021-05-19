@@ -96,19 +96,9 @@ function initCustomColor(chartId, charts) {
         container.appendChild(input);
 
         //register events
-        if (ele === 'waiting-time') {
-            container.addEventListener('change', (e) => {
-                let panels = document.getElementsByClassName('panels');
-                Array.from(panels)
-                    .forEach(panel => {
-                        panel.style.backgroundColor = e.target.value;
-                    });
-            });
-        } else {
-            container.addEventListener('change', (e) => {
-                options.colors[0] = e.target.value;
-            });
-        }
+        container.addEventListener('change', (e) => {
+            options.colors[0] = e.target.value;
+        });
 
         //insert into the container
         document.getElementById('config-container')
