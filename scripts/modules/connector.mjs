@@ -2,7 +2,9 @@ const host = `http://localhost:3000`;
 const END_POINTS = {
     errors: '/stats/errors',
     arrivals: '/stats/arrivals',
-    queue: '/queue'
+    queue: '/queue',
+    departures: '/stats/departures',
+    queue_length: '/stats/lengths'
 };
 
 /**
@@ -53,5 +55,15 @@ export function getArrivalChartPayload(from, duration) {
 
 export function getWaitingTimePayload(){
     const url = `${host}${END_POINTS.queue}`;
+    return getChartPayload(url);
+}
+
+export function getDeparturesChartPayload(from, duration) {
+    const url = makeFromDurationUrl(`${host}${END_POINTS.departures}`, from, duration);
+    return getChartPayload(url);
+}
+
+export function getQueueLengthChartPayload(from, duration) {
+    const url = makeFromDurationUrl(`${host}${END_POINTS.queue_length}`, from, duration);
     return getChartPayload(url);
 }

@@ -1,6 +1,6 @@
 import { DEFAULTS, hideDom, showDom, makeNowFrom } from '../commons.mjs';
-import { createAreaChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
-import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload} from './connector.mjs';
+import { createLineChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
+import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload, getDeparturesChartPayload, getQueueLengthChartPayload} from './connector.mjs';
 
 /**
  *
@@ -109,6 +109,22 @@ function makeArrivalChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) 
     );
 }
 
+function makeDepartureChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) {
+    return makeTimestampBuckets(
+        payload,
+        fromDayJs,
+        toDayJs,
+    )
+}
+
+function makeQueueLengthChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) {
+    return makeTimestampBuckets(
+        payload,
+        fromDayJs,
+        toDayJs,
+    )
+}
+
 /**
  *  Calculate the data from GET /queue
  *  <ul>
@@ -191,6 +207,30 @@ export const charts = {
         draw: drawGoogleChart,
         payloadToData: makeArrivalChartPayloadToTimestampBuckets,
         getPayload: getArrivalChartPayload,
+    },
+
+    'departure-rate': {
+        options: {
+            ...DEFAULTS.graphOptions,
+            title: 'departure/sec',
+            colors: ['blue'],
+        },
+        createChart: createColumnChart,
+        draw: drawGoogleChart,
+        payloadToData: makeDepartureChartPayloadToTimestampBuckets,
+        getPayload: getDeparturesChartPayload,
+    },
+
+    'queue-length': {
+        options: {
+            ...DEFAULTS.graphOptions,
+            title: 'sampled queue lengths',
+            colors: ['yellow'],
+        },
+        createChart: createLineChart,
+        draw: drawGoogleChart,
+        payloadToData: makeQueueLengthChartPayloadToTimestampBuckets,
+        getPayload: getQueueLengthChartPayload,
     },
 
     'waiting-time': {

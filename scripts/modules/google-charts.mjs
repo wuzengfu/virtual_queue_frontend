@@ -8,6 +8,11 @@ export function createAreaChart(chart) {
     chart.googleChart = new google.visualization.AreaChart(chartDom);
 }
 
+export function createLineChart(chart) {
+    const { chartDom } = chart;
+    chart.googleChart = new google.visualization.LineChart(chartDom);
+}
+
 /**
  * Create HTML DOM elements for the four waiting-time panels
  * <ul>

@@ -10,10 +10,48 @@ body {
     margin-left: 5vw;
 }
 
+.chart {
+    height: 30vh;
+}
+
 .chart-container {
     background-color: #111111;
     padding: 20px;
     position: relative;
+}
+
+#chart-containers.normal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+/* Expand */
+.toggle-full-screen-icon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.toggle-full-screen-icon:hover {
+    color: #aaaaaa;
+}
+
+/* Full Screen */
+#chart-containers.full-screen {
+    grid-template-columns: 3fr;
+}
+#chart-containers.full-screen .chart-container {
+    display: none;
+}
+#chart-containers.full-screen .full-screen-chart {
+    display: block;
+}
+#chart-containers.full-screen .chart {
+    height: 60vh;
 }
 
 .chart {
