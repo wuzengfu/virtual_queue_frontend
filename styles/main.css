@@ -131,7 +131,6 @@ body {
 }
 
 #config-container{
-    display: none; /* Make it hidden by default */
     grid-template-columns: repeat(4, 1fr);
     background-color: rgb(17,17,17);
     margin-bottom: 0.5%;
