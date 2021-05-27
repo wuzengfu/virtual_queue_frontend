@@ -8,6 +8,8 @@
         <!-- external scripts -->
         <script type="text/javascript" src="./scripts/external/dayjs.min.js"></script>
         <script type="text/javascript" src="./scripts/external/dayjs.utc.min.js"></script>
+        <script type="text/javascript" src="./scripts/expandAndMinimize.js"></script>
+        <script type="text/javascript" src="./scripts/sampling.js"></script>
         <script>
             dayjs.extend(window.dayjs_plugin_utc);
         </script>
@@ -25,6 +27,7 @@
             <div id="header">
                 <div id="title">Queue Dashboard</div>
                 <span id="toggle-config">⚙️</span>
+                <span id="startSampling" onclick="startSampling()">Start Sampling</span>
             </div>
             <div id="config-container"></div>
             <div id="chart-containers"  class="normal">
@@ -32,30 +35,40 @@
                     <div class="chart"></div>
                     <div class="loading-icon lds-dual-ring" hidden></div>
                     <div class="warning-icon" hidden>⚠️</div>
+                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                    <div class="minimizeIcon" onclick="minimize()">_</div>
                 </div>
     
                 <div id="waiting-time" class="chart-container">
                     <div class="chart" id="panel-container"></div>
                     <div class="loading-icon lds-dual-ring" hidden></div>
                     <div class="warning-icon" hidden>⚠️</div>
+                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                    <div class="minimizeIcon" onclick="minimize()">_</div>
                 </div>
     
                 <div id="error-rate" class="chart-container">
                     <div class="chart"></div>
                     <div class="loading-icon lds-dual-ring" hidden></div>
                     <div class="warning-icon" hidden>⚠️</div>
+                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                    <div class="minimizeIcon" onclick="minimize()">_</div>
                 </div>
     
                 <div id="departure-rate" class="chart-container">
                     <div class="chart"></div>
                     <div class="loading-icon lds-dual-ring" hidden></div>
                     <div class="warning-icon" hidden>⚠️</div>
+                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                    <div class="minimizeIcon" onclick="minimize()">_</div>
                 </div>
     
                 <div id="queue-length" class="chart-container">
                     <div class="chart"></div>
                     <div class="loading-icon lds-dual-ring" hidden></div>
                     <div class="warning-icon" hidden>⚠️</div>
+                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                    <div class="minimizeIcon" onclick="minimize()">_</div>
                 </div>
             </div>
         </div>
