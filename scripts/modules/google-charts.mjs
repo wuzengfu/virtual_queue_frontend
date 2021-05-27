@@ -63,7 +63,7 @@ export function drawWaitingTimePanels(data, chart) {
     let dom_value = document.getElementsByClassName('value');
 
     //insert values into the four panels
-    for (let i = 0, length = Object.keys(data).length; i < length; i++) {
+    for (let i = 0, length = panels.length; i < length; i++) {
         dom_panel[i].style.backgroundColor = color; //set background color
         dom_key[i].innerHTML = panels[i].value;
         dom_value[i].innerHTML = data[panels[i].key].toFixed(1);
