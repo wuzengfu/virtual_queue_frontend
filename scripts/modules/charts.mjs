@@ -1,5 +1,5 @@
 import { DEFAULTS, hideDom, showDom, makeNowFrom } from '../commons.mjs';
-import { createLineChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
+import { createLineChart, createAreaChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
 import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload, getDeparturesChartPayload, getQueueLengthChartPayload} from './connector.mjs';
 
 /**
@@ -117,12 +117,16 @@ function makeDepartureChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs
     )
 }
 
-function makeQueueLengthChartPayloadToTimestampBuckets(payload, fromDayJs, toDayJs) {
-    return makeTimestampBuckets(
-        payload,
-        fromDayJs,
-        toDayJs,
-    )
+function makeQueueLengthChartPayloadToTimestampBuckets(timestampWithLength) {
+    const buckets = [['timestamp', 'length']];
+    timestampWithLength.forEach(({timestamp, length}) => {
+        buckets.push([new Date(timestamp * 1000), length]);
+    });
+
+    if(buckets.length === 1){
+        buckets.push([0,0]);
+    }
+    return buckets;
 }
 
 /**
@@ -225,9 +229,9 @@ export const charts = {
         options: {
             ...DEFAULTS.graphOptions,
             title: 'sampled queue lengths',
-            colors: ['yellow'],
+            colors: ['yellow'],            
         },
-        createChart: createLineChart,
+        createChart: createAreaChart,
         draw: drawGoogleChart,
         payloadToData: makeQueueLengthChartPayloadToTimestampBuckets,
         getPayload: getQueueLengthChartPayload,

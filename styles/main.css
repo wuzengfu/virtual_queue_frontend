@@ -28,34 +28,36 @@ body {
 }
 
 /* Expand */
-.toggle-full-screen-icon {
+.expandIcon {
     position: absolute;
     top: 5px;
     right: 10px;
     color: white;
     cursor: pointer;
     font-weight: bold;
+    display: block;
 }
-.toggle-full-screen-icon:hover {
+.expandIcon:hover {
     color: #aaaaaa;
 }
 
-/* Full Screen */
-#chart-containers.full-screen {
-    grid-template-columns: 3fr;
-}
-#chart-containers.full-screen .chart-container {
-    display: none;
-}
-#chart-containers.full-screen .full-screen-chart {
-    display: block;
-}
-#chart-containers.full-screen .chart {
-    height: 60vh;
+#chart-containers.fullScreen {
+    /* height: 100%; */
+    width: 100%;
 }
 
-.chart {
-    height: 30vh;
+/* minimize */
+.minimizeIcon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    display: none;
+}
+.minimizeIcon:hover {
+    color: #aaaaaa;
 }
 
 /* Warning */
@@ -139,40 +141,6 @@ body {
     padding: 1.5%;
 }
 
-#chart-containers.normal {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 5px;
-    row-gap: 5px;
-}
-
-/* Expand */
-.toggle-full-screen-icon {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-.toggle-full-screen-icon:hover {
-    color: #aaaaaa;
-}
-
-/* Full Screen */
-#chart-containers.full-screen {
-    grid-template-columns: 3fr;
-}
-#chart-containers.full-screen .chart-container {
-    display: none;
-}
-#chart-containers.full-screen .full-screen-chart {
-    display: block;
-}
-#chart-containers.full-screen .chart {
-    height: 60vh;
-}
-
 .config{
     display: grid;
     grid-template-columns: 0.7fr 0.3fr; /* label : input = 7 : 3 */
@@ -206,9 +174,24 @@ body {
     margin: 0;
 }
 
-#toggle-config{
+/* #toggle-config{
     display: flex;
     cursor: pointer;
     justify-content: flex-end;
     margin-right: 3%;
+} */
+
+#toggle-config{
+    display: inline;
+    cursor: pointer;
+    float: right;
+    margin-right: 3%;
+}
+
+#startSampling{
+    display: inline;
+    cursor: pointer;
+    float: right;
+    margin-right: 3%;
+    margin-top: 0.3%;
 }
