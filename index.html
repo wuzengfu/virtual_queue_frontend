@@ -1,76 +1,110 @@
 <html>
-    <head>
-        <title>Queue Dashboard</title>
-        <link rel="shortcut icon" type="image/jpg" href="favicon.ico">
-        <link href="styles/main.css" rel="stylesheet" />
-        <meta charset='utf-8'> <!-- to render emoji icons correctly -->
 
-        <!-- external scripts -->
-        <script type="text/javascript" src="./scripts/external/dayjs.min.js"></script>
-        <script type="text/javascript" src="./scripts/external/dayjs.utc.min.js"></script>
-        <script type="text/javascript" src="./scripts/expandAndMinimize.js"></script>
-        <script type="text/javascript" src="./scripts/sampling.js"></script>
-        <script>
-            dayjs.extend(window.dayjs_plugin_utc);
-        </script>
+<head>
+    <title>Queue Dashboard</title>
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico">
+    <link href="styles/main.css" rel="stylesheet" />
+    <meta charset='utf-8'> <!-- to render emoji icons correctly -->
 
-        <script type="text/javascript" src="./scripts/external/loader.js"></script>
-        <script>
-            google.charts.load('current', { packages: ['corechart'] });
-        </script>
+    <!-- external scripts -->
+    <script type="text/javascript" src="./scripts/external/dayjs.min.js"></script>
+    <script type="text/javascript" src="./scripts/external/dayjs.utc.min.js"></script>
+    <script type="text/javascript" src="./scripts/expandAndMinimize.js"></script>
+    <script type="text/javascript" src="./scripts/sampling.js"></script>
+    <script>
+        dayjs.extend(window.dayjs_plugin_utc);
+    </script>
 
-        <!-- scripts -->
-        <script src="scripts/index.mjs" type="module"></script>
-    </head>
-    <body>
-        <div id="main-container">
-            <div id="header">
-                <div id="title">Queue Dashboard</div>
-                <span id="toggle-config">⚙️</span>
-                <span id="startSampling" onclick="startSampling()">Start Sampling</span>
+    <script type="text/javascript" src="./scripts/external/loader.js"></script>
+    <script>
+        google.charts.load('current', { packages: ['corechart'] });
+    </script>
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev, idString) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            const dropTarget = document.getElementById(idString);
+            const parent = ev.target.parentElement;
+            parent.insertBefore(document.getElementById(data), dropTarget);
+        }
+    </script>
+
+    <!-- scripts -->
+    <script src="scripts/index.mjs" type="module"></script>
+</head>
+
+<body>
+    <div id="main-container">
+        <div id="header">
+            <div id="title">Queue Dashboard</div>
+            <span id="toggle-config">⚙️</span>
+            <span id="startSampling" onclick="startSampling()">Start Sampling</span>
+        </div>
+        <div id="config-container" hidden></div>
+        <div id="chart-containers" class="normal">
+            <div id="arrival-rate" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'arrival-rate')">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
             </div>
-            <div id="config-container" hidden></div>
-            <div id="chart-containers"  class="normal">
-                <div id="arrival-rate" class="chart-container">
-                    <div class="chart"></div>
-                    <div class="loading-icon lds-dual-ring" hidden></div>
-                    <div class="warning-icon" hidden>⚠️</div>
-                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
-                    <div class="minimizeIcon" onclick="minimize()">_</div>
-                </div>
 
-                <div id="waiting-time" class="chart-container">
-                    <div class="chart" id="panel-container"></div>
-                    <div class="loading-icon lds-dual-ring" hidden></div>
-                    <div class="warning-icon" hidden>⚠️</div>
-                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
-                    <div class="minimizeIcon" onclick="minimize()">_</div>
-                </div>
+            <div id="waiting-time" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'waiting-time')">
+                <div class="chart" id="panel-container"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
+            </div>
 
-                <div id="error-rate" class="chart-container">
-                    <div class="chart"></div>
-                    <div class="loading-icon lds-dual-ring" hidden></div>
-                    <div class="warning-icon" hidden>⚠️</div>
-                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
-                    <div class="minimizeIcon" onclick="minimize()">_</div>
-                </div>
+            <div id="error-rate" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'error-rate')">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
+            </div>
 
-                <div id="departure-rate" class="chart-container">
-                    <div class="chart"></div>
-                    <div class="loading-icon lds-dual-ring" hidden></div>
-                    <div class="warning-icon" hidden>⚠️</div>
-                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
-                    <div class="minimizeIcon" onclick="minimize()">_</div>
-                </div>
+            <div id="departure-rate" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'departure-rate')">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
+            </div>
 
-                <div id="queue-length" class="chart-container">
-                    <div class="chart"></div>
-                    <div class="loading-icon lds-dual-ring" hidden></div>
-                    <div class="warning-icon" hidden>⚠️</div>
-                    <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
-                    <div class="minimizeIcon" onclick="minimize()">_</div>
-                </div>
+            <div id="queue-length" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'queue-length')">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
+            </div>
+
+            <div id="processing-time" class="chart-container" draggable="true" ondragstart="drag(event)"
+                ondragover="allowDrop(event)" ondrop="drop(event, 'processing-time')">
+                <div class="chart"></div>
+                <div class="loading-icon lds-dual-ring" hidden></div>
+                <div class="warning-icon" hidden>⚠️</div>
+                <div class="expandIcon" onclick="expand(this.parentNode.id)">⛶</div>
+                <div class="minimizeIcon" onclick="minimize()">_</div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

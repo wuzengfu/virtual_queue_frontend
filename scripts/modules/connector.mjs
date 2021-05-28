@@ -4,7 +4,8 @@ const END_POINTS = {
     arrivals: '/stats/arrivals',
     queue: '/queue',
     departures: '/stats/departures',
-    queue_length: '/stats/lengths'
+    queue_length: '/stats/lengths',
+    processing_time: '/stats/processing-time'
 };
 
 /**
@@ -65,5 +66,10 @@ export function getDeparturesChartPayload(from, duration) {
 
 export function getQueueLengthChartPayload(from, duration) {
     const url = makeFromDurationUrl(`${host}${END_POINTS.queue_length}`, from, duration);
+    return getChartPayload(url);
+}
+
+export function getProcessingTimeChartPayload(from, duration) {
+    const url = makeFromDurationUrl(`${host}${END_POINTS.processing_time}`, from, duration);
     return getChartPayload(url);
 }

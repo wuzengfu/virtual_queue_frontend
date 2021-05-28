@@ -1,6 +1,6 @@
 import { DEFAULTS, hideDom, showDom, makeNowFrom } from '../commons.mjs';
 import { createLineChart, createAreaChart, createColumnChart, createWaitingTimePanels, drawGoogleChart, drawWaitingTimePanels } from './google-charts.mjs';
-import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload, getDeparturesChartPayload, getQueueLengthChartPayload} from './connector.mjs';
+import {getErrorChartPayload, getArrivalChartPayload, getWaitingTimePayload, getDeparturesChartPayload, getQueueLengthChartPayload, getProcessingTimeChartPayload} from './connector.mjs';
 
 /**
  *
@@ -70,6 +70,39 @@ function makeTimestampBuckets(timestamps, fromDayJs, toDayJs) {
     const buckets = [['Timestamp', 'Count']];
     timestampKeys.forEach((timestamp) => {
         buckets.push([new Date(timestamp * 1000), timestampMap[timestamp]]);
+    });
+    return buckets;
+}
+function average(values) {
+    if(values.length == 0)
+    return 0;
+    let sum = 0.0;
+    for(let i=0; 1 < values.length; i++) {
+        sum+=values[i]
+    }
+    let avg = sum/values.length
+}
+
+function makeProcessingTimeBucket(payload, fromDayJs, toDayJs) {
+    const { bucketSize } = DEFAULTS;
+
+    const minValue = fromDayJs.unix();
+    const maxValue = toDayJs.unix();
+
+    const timestampMap = {};
+    const timestampKeys = [];
+    const minBucketKey = getBucketKey(minValue);
+    for (let i = minBucketKey; i < maxValue; i += bucketSize) {
+        timestampMap[i] = [];
+        timestampKeys.push(i);
+    }
+    payload.forEach(({timestamp, duration}) => {
+        timestampMap[getBucketKey(timestamp)].push(duration);
+    });
+
+    const buckets = [['Timestamp', 'Count']];
+    timestampKeys.forEach((timestamp) => {
+        buckets.push([new Date(timestamp * 1000), average(timestampMap[timestamp])]);
     });
     return buckets;
 }
@@ -258,7 +291,19 @@ export const charts = {
         draw: drawWaitingTimePanels,
         payloadToData: makeWaitingTimePayload,
         getPayload: getWaitingTimePayload,
-    }
+    },
+
+    'processing-time': {
+        options: {
+            ...DEFAULTS.graphOptions,
+            title: 'processingTime/sec',
+            colors: ['rgb(255,0,255)'],
+        },
+        createChart: createLineChart,
+        draw: drawGoogleChart,
+        payloadToData: makeProcessingTimeBucket,
+        getPayload: getProcessingTimeChartPayload,
+    },
 };
 
 /**
