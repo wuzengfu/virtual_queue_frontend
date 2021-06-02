@@ -73,14 +73,25 @@ function makeTimestampBuckets(timestamps, fromDayJs, toDayJs) {
     });
     return buckets;
 }
+// function average(values) {
+//     if(values.length == 0)
+//     return 0;
+//     let sum = 0.0;
+//     for(let i=0; 1 < values.length; i++) {
+//         sum+=values[i]
+//     }
+//     let avg = sum/values.length
+// }
+
 function average(values) {
-    if(values.length == 0)
-    return 0;
+    if (values.length == 0) return 0;
     let sum = 0.0;
-    for(let i=0; 1 < values.length; i++) {
-        sum+=values[i]
+    for (let i = 0; i < values.length; i++) {
+        sum += values[i]
     }
-    let avg = sum/values.length
+    let avg = sum / values.length
+
+    return avg;
 }
 
 function makeProcessingTimeBucket(payload, fromDayJs, toDayJs) {
